@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Análisis y seguimiento del mercado cafetero">
+    <title>Análisis Cafetero - Café Inteligente</title>
+    
+    <!-- Estilos externos -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        /* Variables CSS para mejor mantenimiento */
+        :root {
+            --color-primario: #2c1810;
+            --color-secundario: #3d241b;
+            --color-fondo: rgba(0,0,0,0.7);
+            --color-texto: #333;
+            --espaciado-base: 1rem;
+            --border-radius: 15px;
+            --sombra-suave: 0 4px 15px rgba(0,0,0,0.1);
+            --sombra-fuerte: 0 8px 25px rgba(0,0,0,0.15);
+            --transicion: all 0.3s ease;
+        }
+
+        /* Estilos base */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--color-texto);
+            scroll-behavior: smooth;
+            min-height: 100vh;
+            width: 100vw;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(var(--color-fondo), var(--color-fondo)),
+                        url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: var(--espaciado-base);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.7);
+            animation: fadeInDown 1s ease-out;
+            margin-bottom: 1rem;
+        }
+
+        .hero .lead {
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        /* Navegación Lateral */
+        .navbar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--sombra-suave);
+            backdrop-filter: blur(10px);
+            padding: var(--espaciado-base);
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            padding: var(--espaciado-base) 0;
+            color: var(--color-primario) !important;
+            text-align: center;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(44, 24, 16, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-link {
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transicion);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-texto) !important;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+            color: white !important;
+            transform: translateX(5px);
+            box-shadow: var(--sombra-suave);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Contenido Principal */
+        .main-content {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        /* Secciones */
+        .section {
+            padding: 4rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .section:nth-child(even) {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        /* Cards */
+        .card {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--sombra-suave);
+            transition: var(--transicion);
+            position: relative;
+            background: white;
+            border: none;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--sombra-fuerte);
+        }
+
+        .card-img-top {
+            height: 250px;
+            object-fit: cover;
+            filter: brightness(80%);
+            transition: var(--transicion);
+        }
+
+        .card:hover .card-img-top {
+            filter: brightness(100%);
+            transform: scale(1.05);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--color-primario);
+            margin-bottom: 1rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        /* Botones */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transicion);
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(44,24,16,0.3);
+        }
+
+        .btn-outline-primary {
+            border: 2px solid var(--color-primario);
+            color: var(--color-primario);
+            padding: 0.6rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transicion);
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--color-primario);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Estadísticas */
+        .stat-card {
+            background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Blog Cards */
+        .blog-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--sombra-suave);
+            transition: var(--transicion);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-fuerte);
+        }
+
+        .blog-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Formulario de contacto */
+        .form-control {
+            border-radius: var(--border-radius);
+            border: 2px solid #e9ecef;
+            padding: 1rem;
+            transition: var(--transicion);
+        }
+
+        .form-control:focus {
+            border-color: var(--color-primario);
+            box-shadow: 0 0 0 0.25rem rgba(44, 24, 16, 0.25);
+        }
+
+        /* Animaciones */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .navbar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                min-height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section {
+                padding: 2rem 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .lead {
+                font-size: 1.2rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Lateral -->
+    <nav class="navbar navbar-expand-lg navbar-light flex-column align-items-stretch">
+        <div class="container-fluid flex-lg-column container">
+            <a class="navbar-brand mb-4" href="#home">
+                <i class="fas fa-coffee"></i> Aromadata
+            </a>
+            <button class="navbar-toggler mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse flex-lg-column" id="navbarNav">
+                <ul class="navbar-nav w-100 flex-lg-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">
+                            <i class="fas fa-home"></i> Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#analisis">
+                            <i class="fas fa-chart-line"></i> Análisis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#blog">
+                            <i class="fas fa-blog"></i> Blog
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#herramientas">
+                            <i class="fas fa-tools"></i> Herramientas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">
+                            <i class="fas fa-envelope"></i> Contacto
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <h1>Análisis Cafetero Profesional</h1>
+                <p class="lead mb-4">Transformando datos en oportunidades para el sector cafetero</p>
+                <a href="/templates/explorar_analisis.html" class="btn btn-primary">Explorar Análisis</a>
+            </div>
+        </section>
+
+        <!-- Sección de Análisis -->
+        <section id="analisis" class="section">
+            <div class="container">
+        
+
+                <!-- Estadísticas -->
+                <div class="row mb-5">
+                    <div class="col-md-3">
+                        <div class="stat-card fade-in">
+                            <span class="stat-number">2.5M</span>
+                            <span class="stat-label">Toneladas Producidas</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card fade-in">
+                            <span class="stat-number">$4.2B</span>
+                            <span class="stat-label">Valor Exportado</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card fade-in">
+                            <span class="stat-number">540K</span>
+                            <span class="stat-label">Familias Cafeteras</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card fade-in">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Café Arábica</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card fade-in">
+                            <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=1961&auto=format&fit=crop" 
+                                 alt="Producción Cafetera" 
+                                 class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">📈 Producción Nacional</h5>
+                                <p class="card-text">Monitoreo en tiempo real de rendimientos y productividad por regiones cafeteras de Colombia.</p>
+                                <a id="btn-precios" class="btn btn-outline-primary">Ver Dashboard</a>
+                                <button id="btn-precios" class="btn btn-outline-primary">Precios Actuales</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card fade-in">
+                            <img src="https://images.unsplash.com/photo-1504382262-50da43bf473c?q=80&w=2070&auto=format&fit=crop" 
+                                 alt="Impacto Climático" 
+                                 class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">⛅️ Impacto Climático</h5>
+                                <p class="card-text">Análisis detallado de condiciones meteorológicas y su efecto en los cultivos de café.</p>
+                                <a href="#" class="btn btn-outline-primary">Ver Análisis</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card fade-in">
+                            <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=2070&auto=format&fit=crop" 
+                                 alt="Mercados Globales" 
+                                 class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">🌍 Mercados Globales</h5>
+                                <p class="card-text">Seguimiento de tendencias comerciales y precios internacionales del café.</p>
+                                <a href="#" class="btn btn-outline-primary">Ver Mercados</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Blog -->
+        <section id="blog" class="section">
+            <div class="container">
+                <div class="text-center mb-5 fade-in">
+                    <h2 class="fw-bold mb-3">📝 Blog Cafetero</h2>
+                    <p class="lead text-muted">Últimas noticias y análisis del mundo del café</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <article class="blog-card fade-in">
+                            <div class="blog-meta">
+                                <i class="fas fa-calendar-alt"></i> 15 Agosto 2025 | <i class="fas fa-user"></i> Aromadata Team
+                            </div>
+                            <h3 class="mb-3">El Impacto del Cambio Climático en la Producción Cafetera</h3>
+                            <p>Las variaciones climáticas están afectando significativamente los patrones de producción de café en Colombia. Nuestro análisis revela tendencias importantes...</p>
+                            <a href="#" class="btn btn-outline-primary">Leer más</a>
+                        </article>
+                        <article class="blog-card fade-in">
+                            <div class="blog-meta">
+                                <i class="fas fa-calendar-alt"></i> 10 Agosto 2025 | <i class="fas fa-user"></i> Aromadata Team
+                            </div>
+                            <h3 class="mb-3">Nuevas Tecnologías en el Beneficiado del Café</h3>
+                            <p>La implementación de tecnologías innovadoras está transformando los procesos tradicionales de beneficiado, mejorando la calidad y eficiencia...</p>
+                            <a href="#" class="btn btn-outline-primary">Leer más</a>
+                        </article>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card fade-in">
+                            <div class="card-body">
+                                <h5 class="card-title">📊 Datos en Vivo</h5>
+                                <div class="mb-3">
+                                    <strong>Precio Actual:</strong><br>
+                                    <span class="text-success fs-4">$178.50/lb</span>
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Variación Diaria:</strong><br>
+                                    <span class="text-success">+2.3% ↗</span>
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Volumen:</strong><br>
+                                    <span>15.2K contratos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Herramientas -->
+        <section id="herramientas" class="section">
+            <div class="container">
+                <div class="text-center mb-5 fade-in">
+                    <h2 class="fw-bold mb-3">🛠️ Herramientas de Análisis</h2>
+                    <p class="lead text-muted">Utiliza nuestras herramientas especializadas para análisis profundo</p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card fade-in">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-calculator text-primary me-2"></i>
+                                    Calculadora de Rendimiento
+                                </h5>
+                                <p class="card-text">Calcula el rendimiento esperado de tu cultivo basado en variables climáticas y de suelo.</p>
+                                <a href="#" class="btn btn-primary">Usar Calculadora</a>
+                                <button id="btn-precios" class="btn btn-primary">Precios Actuales</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card fade-in">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-chart-bar text-primary me-2"></i>
+                                    Comparador de Precios
+                                </h5>
+                                <p class="card-text">Compara precios históricos y actuales en diferentes mercados internacionales.</p>
+                                <a href="#" class="btn btn-primary">Comparar Precios</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card fade-in">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-cloud-sun text-primary me-2"></i>
+                                    Predictor Climático
+                                </h5>
+                                <p class="card-text">Obtén predicciones climáticas específicas para tu zona cafetera.</p>
+                                <a href="#" class="btn btn-primary">Ver Predicciones</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card fade-in">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-leaf text-primary me-2"></i>
+                                    Análisis de Calidad
+                                </h5>
+                                <p class="card-text">Evalúa la calidad de tu café utilizando nuestros parámetros especializados.</p>
+                                <a href="#" class="btn btn-primary">Analizar Calidad</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Contacto -->
+        <section id="contacto" class="section">
+            <div class="container">
+                <div class="text-center mb-5 fade-in">
+                    <h2 class="fw-bold mb-3">📞 Contacto</h2>
+                    <p class="lead text-muted">¿Tienes preguntas? Nos encantaría ayudarte</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <form class="fade-in">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="nombre" class="form-label">Nombre Completo</label>
+                                    <input type="text" class="form-control" id="nombre" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="asunto" class="form-label">Asunto</label>
+                                <input type="text" class="form-control" id="asunto" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mensaje" class="form-label">Mensaje</label>
+                                <textarea class="form-control" id="mensaje" rows="5" required></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane me-2"></i>Enviar Mensaje
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-4 text-center fade-in">
+                        <i class="fas fa-map-marker-alt fa-3x text-primary mb-3"></i>
+                        <h5>Ubicación</h5>
+                        <p>Medellín, Colombia<br>Eje Cafetero</p>
+                    </div>
+                    <div class="col-md-4 text-center fade-in">
+                        <i class="fas fa-phone fa-3x text-primary mb-3"></i>
+                        <h5>Teléfono</h5>
+                        <p>+57 (4) 123-4567<br>WhatsApp disponible</p>
+                    </div>
+                    <div class="col-md-4 text-center fade-in">
+                        <i class="fas fa-envelope fa-3x text-primary mb-3"></i>
+                        <h5>Email</h5>
+                        <p>info@aromadata.com<br>soporte@aromadata.com</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript Bootstrap y funcionalidad -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Smooth scrolling para navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Actualizar navegación activa
+        function updateActiveNav() {
+            const sections = document.querySelectorAll('.section, .hero');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Animaciones de scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateActiveNav();
+            animateOnScroll();
+        });
+
+        // Inicializar animaciones al cargar
+        window.addEventListener('load', () => {
+            animateOnScroll();
+        });
+
+        // Formulario de contacto
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simular envío
+            const button = this.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Enviando...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-check me-2"></i>¡Mensaje Enviado!';
+                button.classList.remove('btn-primary');
+                button.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-primary');
+                    this.reset();
+                }, 2000);
+            }, 1500);
+        });
+
+        // Paralax effect para hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+
+</body>
+</html>
